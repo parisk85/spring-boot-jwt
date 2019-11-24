@@ -4,7 +4,7 @@
 * [Baeldung - Enabling Method Security](https://www.baeldung.com/spring-security-method-security)
 
 #### Acquiring Token and Logging In
-* First you must have a user registered with and present in the database
+* First you must have a user registered and present in the database
 * To create a user, POST http://localhost:8080/user with request body the ApplicationUser object
 * Once Sign-Up is successful, you must acquire a token
 * Use GET http://localhost:8080/authenticate useing AuthenticationRequest as request body, providing valid user credentials
