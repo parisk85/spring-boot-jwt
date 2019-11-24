@@ -27,9 +27,9 @@ public class ApplicationUser {
     @Email
     private String email;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date creationDate;
+    private Date createdAt;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date lastLoginDate;
+    private Date lastLoginAt;
 
     public Long getId() {
         return id;
@@ -63,20 +63,20 @@ public class ApplicationUser {
         this.email = email;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getLastLoginDate() {
-        return lastLoginDate;
+    public Date getLastLoginAt() {
+        return lastLoginAt;
     }
 
-    public void setLastLoginDate(Date lastLoginDate) {
-        this.lastLoginDate = lastLoginDate;
+    public void setLastLoginAt(Date lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
     }
 
     @Override
@@ -88,8 +88,8 @@ public class ApplicationUser {
                 username.equals(that.username) &&
                 Objects.equals(password, that.password) &&
                 Objects.equals(email, that.email) &&
-                Objects.equals(creationDate, that.creationDate) &&
-                Objects.equals(lastLoginDate, that.lastLoginDate);
+                Objects.equals(createdAt, that.createdAt) &&
+                Objects.equals(lastLoginAt, that.lastLoginAt);
     }
 
     @Override
@@ -103,8 +103,8 @@ public class ApplicationUser {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", creationDate=" + creationDate +
-                ", lastLoginDate=" + lastLoginDate +
+                ", createdAt=" + createdAt +
+                ", lastLoginAt=" + lastLoginAt +
                 '}';
     }
 }
