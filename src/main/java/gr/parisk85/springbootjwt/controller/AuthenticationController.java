@@ -43,6 +43,7 @@ public class AuthenticationController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         String jwt = jwtService.generateToken(userDetails);
 
+        //TODO: investigate if this is placed properly or a new endpoint should contain the update
         applicationUserService.updateLastLoginDate(authenticationRequest.getUsername());
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
