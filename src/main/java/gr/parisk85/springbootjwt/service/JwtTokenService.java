@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtTokenService {
     //TODO: externalize secret key property
     private final String JWT_SECRET_KEY = "secret";
 

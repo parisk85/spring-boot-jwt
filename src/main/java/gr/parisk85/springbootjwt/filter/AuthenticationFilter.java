@@ -1,6 +1,6 @@
 package gr.parisk85.springbootjwt.filter;
 
-import gr.parisk85.springbootjwt.service.JwtService;
+import gr.parisk85.springbootjwt.service.JwtTokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,11 +19,11 @@ import java.util.Objects;
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
-    private final JwtService jwtService;
+    private final JwtTokenService jwtTokenService;
 
-    public AuthenticationFilter(UserDetailsService userDetailsService, JwtService jwtService) {
+    public AuthenticationFilter(UserDetailsService userDetailsService, JwtTokenService jwtTokenService) {
         this.userDetailsService = userDetailsService;
-        this.jwtService = jwtService;
+        this.jwtTokenService = jwtTokenService;
     }
 
     @Override
@@ -35,12 +35,12 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         if (!Objects.isNull(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
-            username = jwtService.extractUsername(token);
+            username = jwtTokenService.extractUsername(token);
         }
 
         if (!Objects.isNull(username) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if (jwtService.validateToken(token, userDetails)) {
+            if (jwtTokenService.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                         = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken

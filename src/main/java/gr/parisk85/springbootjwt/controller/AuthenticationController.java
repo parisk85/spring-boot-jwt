@@ -3,7 +3,7 @@ package gr.parisk85.springbootjwt.controller;
 import gr.parisk85.springbootjwt.model.AuthenticationRequest;
 import gr.parisk85.springbootjwt.model.AuthenticationResponse;
 import gr.parisk85.springbootjwt.service.ApplicationUserService;
-import gr.parisk85.springbootjwt.service.JwtService;
+import gr.parisk85.springbootjwt.service.JwtTokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,15 +20,15 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final ApplicationUserService applicationUserService;
     private final UserDetailsService userDetailsService;
-    private final JwtService jwtService;
+    private final JwtTokenService jwtTokenService;
 
     public AuthenticationController(AuthenticationManager authenticationManager,
                                     ApplicationUserService applicationUserService,
-                                    UserDetailsService userDetailsService, JwtService jwtService) {
+                                    UserDetailsService userDetailsService, JwtTokenService jwtTokenService) {
         this.authenticationManager = authenticationManager;
         this.applicationUserService = applicationUserService;
         this.userDetailsService = userDetailsService;
-        this.jwtService = jwtService;
+        this.jwtTokenService = jwtTokenService;
     }
 
     @PostMapping("/authenticate")
@@ -41,11 +41,11 @@ public class AuthenticationController {
 
         //TODO: add password to userDetails for token generation
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        String jwt = jwtService.generateToken(userDetails);
+        final String token = jwtTokenService.generateToken(userDetails);
 
         //TODO: investigate if this is placed properly or a new endpoint should contain the update
         applicationUserService.updateLastLoginDate(authenticationRequest.getUsername());
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(token));
     }
 }
