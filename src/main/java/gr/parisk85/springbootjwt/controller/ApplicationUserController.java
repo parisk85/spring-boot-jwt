@@ -33,16 +33,4 @@ public class ApplicationUserController {
         return ResponseEntity
                 .ok(applicationUserOptional.get());
     }
-
-    @PostMapping
-    public ResponseEntity<ApplicationUser> saveUser(@RequestBody ApplicationUser applicationUser) {
-        applicationUserService.createNew(applicationUser);
-
-        final URI location = ServletUriComponentsBuilder.fromCurrentServletMapping()
-                .path("/user/{id}")
-                .build().expand(applicationUser.getId()).toUri();
-
-        return ResponseEntity.created(location)
-               .body(applicationUser);
-    }
 }

@@ -1,5 +1,6 @@
 package gr.parisk85.springbootjwt.controller;
 
+import gr.parisk85.springbootjwt.model.ApplicationUser;
 import gr.parisk85.springbootjwt.model.AuthenticationRequest;
 import gr.parisk85.springbootjwt.model.AuthenticationResponse;
 import gr.parisk85.springbootjwt.service.ApplicationUserService;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/auth")
@@ -32,8 +36,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
         //TODO: create controller advice to catch BadCredentialsException
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
@@ -47,5 +50,17 @@ public class AuthenticationController {
         applicationUserService.updateLastLoginDate(authenticationRequest.getUsername());
 
         return ResponseEntity.ok(new AuthenticationResponse(token));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<ApplicationUser> register(@RequestBody ApplicationUser applicationUser) {
+        applicationUserService.createNew(applicationUser);
+
+        final URI location = ServletUriComponentsBuilder.fromCurrentServletMapping()
+                .path("/user/{id}")
+                .build().expand(applicationUser.getId()).toUri();
+
+        return ResponseEntity.created(location)
+                .body(applicationUser);
     }
 }
