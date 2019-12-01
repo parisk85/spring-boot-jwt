@@ -2,23 +2,29 @@ package gr.parisk85.springbootjwt.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
 public class ApplicationUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String username;
@@ -30,6 +36,8 @@ public class ApplicationUser {
     private Date createdAt;
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginAt;
+    @OneToMany
+    private Set<Role> roles = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -79,6 +87,14 @@ public class ApplicationUser {
         this.lastLoginAt = lastLoginAt;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,6 +121,7 @@ public class ApplicationUser {
                 ", email='" + email + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastLoginAt=" + lastLoginAt +
+                ", roles=" + roles +
                 '}';
     }
 }
