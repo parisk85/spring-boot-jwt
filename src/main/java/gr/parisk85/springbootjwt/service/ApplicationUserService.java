@@ -1,16 +1,13 @@
 package gr.parisk85.springbootjwt.service;
 
 import gr.parisk85.springbootjwt.model.ApplicationUser;
-import gr.parisk85.springbootjwt.model.Role;
 import gr.parisk85.springbootjwt.repository.ApplicationUserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ApplicationUserService {
@@ -37,8 +34,7 @@ public class ApplicationUserService {
         applicationUser.setCreatedAt(new Date());
         applicationUser.setLastLoginAt(null);
         if (applicationUser.getRoles().isEmpty()) {
-            final List<Role> userRole = Arrays.asList(roleService.getByName("ROLE_USER").get());
-            applicationUser.setRoles(new HashSet<>(userRole));
+            applicationUser.setRoles(Set.of(roleService.getByName("ROLE_USER").get()));
         }
         applicationUserRepository.save(applicationUser);
     }
