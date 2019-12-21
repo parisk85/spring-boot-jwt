@@ -17,11 +17,9 @@ import java.util.Set;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final ApplicationUserService applicationUserService;
-    private final RoleService roleService;
 
-    public UserDetailsServiceImpl(final ApplicationUserService applicationUserService, final RoleService roleService) {
+    public UserDetailsServiceImpl(final ApplicationUserService applicationUserService) {
         this.applicationUserService = applicationUserService;
-        this.roleService = roleService;
     }
 
     @Override

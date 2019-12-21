@@ -37,7 +37,7 @@ public class ApplicationUserService {
         applicationUser.setCreatedAt(new Date());
         applicationUser.setLastLoginAt(null);
         if (applicationUser.getRoles().isEmpty()) {
-            List<Role> userRole = Arrays.asList(roleService.getByName("ROLE_USER").get());
+            final List<Role> userRole = Arrays.asList(roleService.getByName("ROLE_USER").get());
             applicationUser.setRoles(new HashSet<>(userRole));
         }
         applicationUserRepository.save(applicationUser);
