@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/users")
 public class ApplicationUserController {
     private final ApplicationUserService applicationUserService;
 

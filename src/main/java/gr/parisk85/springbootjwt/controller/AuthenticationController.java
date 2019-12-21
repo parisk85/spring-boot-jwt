@@ -57,7 +57,7 @@ public class AuthenticationController {
         applicationUserService.createNew(applicationUser);
 
         final URI location = ServletUriComponentsBuilder.fromCurrentServletMapping()
-                .path("/user/{id}")
+                .path("/users/{id}")
                 .build().expand(applicationUser.getId()).toUri();
 
         return ResponseEntity.created(location)

@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,7 +35,10 @@ public class ApplicationUser {
     private Date createdAt;
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginAt;
-    @OneToMany
+    @ManyToMany
+    @JoinTable(name = "USER_ROLES",
+            joinColumns = @JoinColumn(name = "USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     private Set<Role> roles = new HashSet<>();
 
     public Long getId() {
