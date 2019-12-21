@@ -33,11 +33,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers(HttpMethod.POST, "/auth/register").permitAll()
                 .and()
                 .authorizeRequests().antMatchers(HttpMethod.POST, "/auth/authenticate").permitAll()
+                .and()
+                //TODO: delete next line when live | try to make it configurable
+                .authorizeRequests().antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.headers().frameOptions().sameOrigin();
     }
 
     @Override

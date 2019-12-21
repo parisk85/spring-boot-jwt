@@ -1,20 +1,26 @@
 package gr.parisk85.springbootjwt.service;
 
 import gr.parisk85.springbootjwt.model.ApplicationUser;
+import gr.parisk85.springbootjwt.model.Role;
 import gr.parisk85.springbootjwt.repository.ApplicationUserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ApplicationUserService {
     private final ApplicationUserRepository applicationUserRepository;
+    private final RoleService roleService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public ApplicationUserService(final ApplicationUserRepository applicationUserRepository, final BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public ApplicationUserService(final ApplicationUserRepository applicationUserRepository, final RoleService roleService, final BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.applicationUserRepository = applicationUserRepository;
+        this.roleService = roleService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -30,6 +36,10 @@ public class ApplicationUserService {
         applicationUser.setPassword(bCryptPasswordEncoder.encode(applicationUser.getPassword()));
         applicationUser.setCreatedAt(new Date());
         applicationUser.setLastLoginAt(null);
+        if (applicationUser.getRoles().isEmpty()) {
+            List<Role> userRole = Arrays.asList(roleService.getByName("ROLE_USER").get());
+            applicationUser.setRoles(new HashSet<>(userRole));
+        }
         applicationUserRepository.save(applicationUser);
     }
 
