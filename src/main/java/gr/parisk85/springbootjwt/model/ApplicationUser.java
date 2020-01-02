@@ -44,9 +44,11 @@ public class ApplicationUser {
     @Email
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginAt;
 

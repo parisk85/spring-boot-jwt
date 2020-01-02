@@ -65,6 +65,8 @@ public class AuthenticationController {
                 .path("/users/{id}")
                 .build().expand(applicationUser.getId()).toUri();
 
+        //TODO: raise an application event
+
         return ResponseEntity.created(location)
                 .body(applicationUser);
     }
