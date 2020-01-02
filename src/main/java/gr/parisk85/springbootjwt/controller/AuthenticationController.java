@@ -54,6 +54,11 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<ApplicationUser> register(@RequestBody ApplicationUser applicationUser) {
+        if (!applicationUser.getPassword().equals(applicationUser.getPasswordConfirm())) {
+            //TODO: custom exception
+            throw new RuntimeException("Passwords do not match");
+        }
+
         applicationUserService.createNew(applicationUser);
 
         final URI location = ServletUriComponentsBuilder.fromCurrentServletMapping()

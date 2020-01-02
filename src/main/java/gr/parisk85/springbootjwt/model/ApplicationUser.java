@@ -13,7 +13,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -25,16 +27,33 @@ public class ApplicationUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty
     @Column(unique = true)
     private String username;
+
+    @NotEmpty
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String passwordConfirm;
+
+    @NotEmpty
     @Email
     private String email;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginAt;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean active;
+
     @ManyToMany
     @JoinTable(name = "USER_ROLES",
             joinColumns = @JoinColumn(name = "USER_ID"),
@@ -65,6 +84,14 @@ public class ApplicationUser {
         this.password = password;
     }
 
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -89,6 +116,14 @@ public class ApplicationUser {
         this.lastLoginAt = lastLoginAt;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -101,13 +136,17 @@ public class ApplicationUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ApplicationUser that = (ApplicationUser) o;
-        return id.equals(that.id) &&
-                username.equals(that.username) &&
-                Objects.equals(password, that.password) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(createdAt, that.createdAt) &&
-                Objects.equals(lastLoginAt, that.lastLoginAt);
+        ApplicationUser user = (ApplicationUser) o;
+        return active == user.active &&
+                Objects.equals(id, user.id) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(passwordConfirm, user.passwordConfirm) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(createdAt, user.createdAt) &&
+                Objects.equals(lastLoginAt, user.lastLoginAt) &&
+                Objects.equals(roles, user.roles) &&
+                Objects.equals(active, user.active);
     }
 
     @Override
@@ -123,6 +162,7 @@ public class ApplicationUser {
                 ", email='" + email + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastLoginAt=" + lastLoginAt +
+                ", active=" + active +
                 ", roles=" + roles +
                 '}';
     }

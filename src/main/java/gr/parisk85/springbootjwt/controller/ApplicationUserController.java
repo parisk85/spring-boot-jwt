@@ -27,6 +27,7 @@ public class ApplicationUserController {
         SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final Optional<ApplicationUser> applicationUserOptional = applicationUserService.findByUsername(username);
 
+        //TODO: create custom exception
         applicationUserOptional.orElseThrow(RuntimeException::new);
 
         return ResponseEntity
