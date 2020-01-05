@@ -31,6 +31,6 @@ public class TestController {
 
     @GetMapping("/mail")
     public void testMail() {
-        emailService.sendConfirmationMail("parisk85@gmail.com", "test", "asdf");
+        emailService.sendConfirmationEmail("parisk85@gmail.com", "test", "asdf");
     }
 }

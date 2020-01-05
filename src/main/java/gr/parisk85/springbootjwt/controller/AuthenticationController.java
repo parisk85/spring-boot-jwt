@@ -1,10 +1,12 @@
 package gr.parisk85.springbootjwt.controller;
 
+import gr.parisk85.springbootjwt.event.OnRegistrationCompleteEvent;
 import gr.parisk85.springbootjwt.model.ApplicationUser;
 import gr.parisk85.springbootjwt.model.AuthenticationRequest;
 import gr.parisk85.springbootjwt.model.AuthenticationResponse;
 import gr.parisk85.springbootjwt.service.ApplicationUserService;
 import gr.parisk85.springbootjwt.service.JwtTokenService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,14 +27,17 @@ public class AuthenticationController {
     private final ApplicationUserService applicationUserService;
     private final UserDetailsService userDetailsService;
     private final JwtTokenService jwtTokenService;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public AuthenticationController(AuthenticationManager authenticationManager,
-                                    ApplicationUserService applicationUserService,
-                                    UserDetailsService userDetailsService, JwtTokenService jwtTokenService) {
+    public AuthenticationController(final AuthenticationManager authenticationManager,
+                                    final ApplicationUserService applicationUserService,
+                                    final UserDetailsService userDetailsService, JwtTokenService jwtTokenService,
+                                    final ApplicationEventPublisher eventPublisher) {
         this.authenticationManager = authenticationManager;
         this.applicationUserService = applicationUserService;
         this.userDetailsService = userDetailsService;
         this.jwtTokenService = jwtTokenService;
+        this.eventPublisher = eventPublisher;
     }
 
     @PostMapping("/authenticate")
@@ -65,7 +70,7 @@ public class AuthenticationController {
                 .path("/users/{id}")
                 .build().expand(applicationUser.getId()).toUri();
 
-        //TODO: raise an application event
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser));
 
         return ResponseEntity.created(location)
                 .body(applicationUser);

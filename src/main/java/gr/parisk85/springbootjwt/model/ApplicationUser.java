@@ -54,7 +54,7 @@ public class ApplicationUser {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(columnDefinition = "BOOLEAN DEFAULT false")
-    private boolean active;
+    private boolean enabled;
 
     @ManyToMany
     @JoinTable(name = "USER_ROLES",
@@ -118,12 +118,12 @@ public class ApplicationUser {
         this.lastLoginAt = lastLoginAt;
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Set<Role> getRoles() {
@@ -139,7 +139,7 @@ public class ApplicationUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ApplicationUser user = (ApplicationUser) o;
-        return active == user.active &&
+        return enabled == user.enabled &&
                 Objects.equals(id, user.id) &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
@@ -148,7 +148,7 @@ public class ApplicationUser {
                 Objects.equals(createdAt, user.createdAt) &&
                 Objects.equals(lastLoginAt, user.lastLoginAt) &&
                 Objects.equals(roles, user.roles) &&
-                Objects.equals(active, user.active);
+                Objects.equals(enabled, user.enabled);
     }
 
     @Override
@@ -164,7 +164,7 @@ public class ApplicationUser {
                 ", email='" + email + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastLoginAt=" + lastLoginAt +
-                ", active=" + active +
+                ", enabled=" + enabled +
                 ", roles=" + roles +
                 '}';
     }
