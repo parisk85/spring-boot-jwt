@@ -15,6 +15,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendConfirmationEmail(String to, String subject, String text) {
+        //TODO: externalize constants and/or use mail template
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(to);
         mailMessage.setSubject(subject);

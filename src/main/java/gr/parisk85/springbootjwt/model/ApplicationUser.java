@@ -42,6 +42,7 @@ public class ApplicationUser {
 
     @NotEmpty
     @Email
+    @Column(unique = true)
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
