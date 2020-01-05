@@ -8,4 +8,7 @@
 * To create a user, POST http://localhost:8080/auth/register with request body the ApplicationUser object
 * Once Sign-Up is successful, you must acquire a token
 * Use GET http://localhost:8080/auth/authenticate, using AuthenticationRequest as request body, providing valid user credentials
-* Once the jwt token is received, add it to the Authentication Header of the request, preceded by 'Bearer '     
+* Once the jwt token is received, add it to the Authentication Header of the request, preceded by 'Bearer '
+
+#### Confirmation Email Gmail Setup
+* https://support.google.com/accounts/answer/185833     
