@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Properties;
 
 @Configuration
+@EnableRedisRepositories
 public class BeanConfig {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -56,7 +60,7 @@ public class BeanConfig {
         return new ConfirmationEmail();
     }
 
-    /*@Bean
+    @Bean
     public JedisConnectionFactory jedisConnectionFactory() {
         return new JedisConnectionFactory();
     }
@@ -66,5 +70,5 @@ public class BeanConfig {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(jedisConnectionFactory());
         return template;
-    }*/
+    }
 }
