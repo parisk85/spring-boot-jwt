@@ -1,5 +1,6 @@
 package gr.parisk85.springbootjwt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
@@ -56,6 +57,12 @@ public class ApplicationUser {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(columnDefinition = "BOOLEAN DEFAULT false")
     private boolean enabled;
+
+    @JsonIgnore
+    private String confirmationToken;
+
+    @JsonIgnore
+    private Date confirmationTokenExpiration;
 
     @ManyToMany
     @JoinTable(name = "USER_ROLES",
@@ -125,6 +132,22 @@ public class ApplicationUser {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getConfirmationToken() {
+        return confirmationToken;
+    }
+
+    public void setConfirmationToken(String confirmationToken) {
+        this.confirmationToken = confirmationToken;
+    }
+
+    public Date getConfirmationTokenExpiration() {
+        return confirmationTokenExpiration;
+    }
+
+    public void setConfirmationTokenExpiration(Date confirmationTokenExpiration) {
+        this.confirmationTokenExpiration = confirmationTokenExpiration;
     }
 
     public Set<Role> getRoles() {

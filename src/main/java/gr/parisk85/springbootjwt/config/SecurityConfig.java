@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers(HttpMethod.POST, "/auth/authenticate").permitAll()
                 .and()
-                .authorizeRequests().antMatchers(HttpMethod.POST, "/auth/confirm").permitAll()
+                .authorizeRequests().antMatchers(HttpMethod.PATCH, "/auth/confirm/**").permitAll()
                 .and()
                 //TODO: delete next line when live | try to make it configurable
                 .authorizeRequests().antMatchers("/h2-console/**").permitAll()

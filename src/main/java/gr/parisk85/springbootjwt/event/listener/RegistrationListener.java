@@ -1,8 +1,8 @@
 package gr.parisk85.springbootjwt.event.listener;
 
-import gr.parisk85.springbootjwt.model.ConfirmationEmail;
 import gr.parisk85.springbootjwt.event.OnRegistrationCompleteEvent;
 import gr.parisk85.springbootjwt.model.ApplicationUser;
+import gr.parisk85.springbootjwt.model.ConfirmationEmail;
 import gr.parisk85.springbootjwt.service.EmailService;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,9 @@ public class RegistrationListener {
         final ApplicationUser user = event.getUser();
         final String text = new StringBuilder(confirmationEmail.getMessage())
                 .append(confirmationEmail.getAppUrl())
-                .append(event.getUuid())
+                .append(user.getUsername())
+                .append("/")
+                .append(user.getConfirmationToken())
                 .toString();
         emailService.sendConfirmationEmail(user.getEmail(), confirmationEmail.getSubject(), text);
     }
