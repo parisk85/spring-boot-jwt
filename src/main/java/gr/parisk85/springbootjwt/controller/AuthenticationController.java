@@ -68,8 +68,8 @@ public class AuthenticationController {
         applicationUserService.createNew(applicationUser);
 
         final URI location = ServletUriComponentsBuilder.fromCurrentServletMapping()
-                .path("/users/{id}")
-                .build().expand(applicationUser.getId()).toUri();
+                .path("/users/{username}")
+                .build().expand(applicationUser.getUsername()).toUri();
 
         final String emailVerificaitonToken = UUID.randomUUID().toString();
 
