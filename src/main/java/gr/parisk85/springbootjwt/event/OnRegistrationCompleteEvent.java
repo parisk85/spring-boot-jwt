@@ -5,13 +5,19 @@ import org.springframework.context.ApplicationEvent;
 
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
     private final ApplicationUser user;
+    private final String uuid;
 
-    public OnRegistrationCompleteEvent(ApplicationUser user) {
+    public OnRegistrationCompleteEvent(final ApplicationUser user, final String uuid) {
         super(user);
         this.user = user;
+        this.uuid = uuid;
     }
 
     public ApplicationUser getUser() {
         return user;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 }

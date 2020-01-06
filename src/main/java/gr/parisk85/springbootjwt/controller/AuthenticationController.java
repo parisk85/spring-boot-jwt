@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/auth")
@@ -70,9 +71,17 @@ public class AuthenticationController {
                 .path("/users/{id}")
                 .build().expand(applicationUser.getId()).toUri();
 
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser));
+        final String emailVerificaitonToken = UUID.randomUUID().toString();
+
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser, emailVerificaitonToken));
 
         return ResponseEntity.created(location)
                 .body(applicationUser);
+    }
+
+    @PostMapping("/confirm")
+    public ResponseEntity<Void> confirmEmail(final @RequestBody String uuid) {
+        //TODO: handle mail confirmation
+        return ResponseEntity.ok().build();
     }
 }

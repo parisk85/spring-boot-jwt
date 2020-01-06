@@ -1,6 +1,8 @@
 package gr.parisk85.springbootjwt.config;
 
+import gr.parisk85.springbootjwt.model.ConfirmationEmail;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ApplicationEventMulticaster;
@@ -54,5 +56,11 @@ public class BeanConfig {
         SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
         eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
         return eventMulticaster;
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "mail.confirm")
+    public ConfirmationEmail confirmationEmail() {
+        return new ConfirmationEmail();
     }
 }

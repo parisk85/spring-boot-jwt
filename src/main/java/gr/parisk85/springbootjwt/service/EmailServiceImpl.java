@@ -9,13 +9,12 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
 
-    private EmailServiceImpl(JavaMailSender javaMailSender) {
+    private EmailServiceImpl(final JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
     @Override
     public void sendConfirmationEmail(String to, String subject, String text) {
-        //TODO: externalize constants and/or use mail template
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(to);
         mailMessage.setSubject(subject);
