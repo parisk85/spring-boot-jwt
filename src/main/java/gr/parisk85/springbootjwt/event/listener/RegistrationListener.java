@@ -17,12 +17,12 @@ public class RegistrationListener {
         this.confirmationEmail = confirmationEmail;
     }
 
+    @EventListener
     public void onApplicationEvent(final OnRegistrationCompleteEvent onRegistrationCompleteEvent) {
         this.dispatchConfirmationEmail(onRegistrationCompleteEvent);
     }
 
-    @EventListener
-    private void dispatchConfirmationEmail(final OnRegistrationCompleteEvent event) {
+    protected void dispatchConfirmationEmail(final OnRegistrationCompleteEvent event) {
         final ApplicationUser user = event.getUser();
         final String text = new StringBuilder(confirmationEmail.getMessage())
                 .append(confirmationEmail.getAppUrl())

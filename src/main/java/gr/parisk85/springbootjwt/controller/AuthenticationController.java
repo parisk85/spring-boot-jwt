@@ -71,9 +71,9 @@ public class AuthenticationController {
                 .path("/users/{username}")
                 .build().expand(applicationUser.getUsername()).toUri();
 
-        final String emailVerificaitonToken = UUID.randomUUID().toString();
+        final String emailVerificationToken = UUID.randomUUID().toString();
 
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser, emailVerificaitonToken));
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(applicationUser, emailVerificationToken));
 
         return ResponseEntity.created(location)
                 .body(applicationUser);
