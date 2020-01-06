@@ -1,7 +1,8 @@
 package gr.parisk85.springbootjwt.config;
 
 import gr.parisk85.springbootjwt.model.ConfirmationEmail;
-import org.springframework.beans.factory.annotation.Value;
+import gr.parisk85.springbootjwt.model.MailSettings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,39 +17,30 @@ import java.util.Properties;
 
 @Configuration
 public class BeanConfig {
-    private final String mailHost;
-    private final int mailPort;
-    private final String mailUsername;
-    private final String mailPassword;
-
-    public BeanConfig(@Value("${mail.host}") final String mailHost,
-                       @Value("${mail.port}") final int mailPort,
-                       @Value("${mail.username}") final String mailUsername,
-                       @Value("${mail.password}") final String mailPassword) {
-        this.mailHost = mailHost;
-        this.mailPort = mailPort;
-        this.mailUsername = mailUsername;
-        this.mailPassword = mailPassword;
-    }
-
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public JavaMailSender javaMailSender() {
+    public JavaMailSender javaMailSender(final @Autowired MailSettings mailSettings) {
         final JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost(mailHost);
-        javaMailSender.setPort(mailPort);
-        javaMailSender.setUsername(mailUsername);
-        javaMailSender.setPassword(mailPassword);
+        javaMailSender.setHost(mailSettings.getHost());
+        javaMailSender.setPort(mailSettings.getPort());
+        javaMailSender.setUsername(mailSettings.getUsername());
+        javaMailSender.setPassword(mailSettings.getPassword());
         final Properties mailProps = javaMailSender.getJavaMailProperties();
         mailProps.put("mail.transport.protocol", "smtp");
         mailProps.put("mail.smtp.auth", "true");
         mailProps.put("mail.smtp.starttls.enable", "true");
         mailProps.put("mail.debug", "true");
         return javaMailSender;
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "mail.settings")
+    public MailSettings mailSettings() {
+        return new MailSettings();
     }
 
     @Bean(name = "applicationEventMulticaster")
@@ -63,4 +55,16 @@ public class BeanConfig {
     public ConfirmationEmail confirmationEmail() {
         return new ConfirmationEmail();
     }
+
+    /*@Bean
+    public JedisConnectionFactory jedisConnectionFactory() {
+        return new JedisConnectionFactory();
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(jedisConnectionFactory());
+        return template;
+    }*/
 }
