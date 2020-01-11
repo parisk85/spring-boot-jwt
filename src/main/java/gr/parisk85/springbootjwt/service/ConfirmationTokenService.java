@@ -17,8 +17,8 @@ public class ConfirmationTokenService {
     }
 
     @Transactional
-    public void createConfirmationToken(final ApplicationUser user) {
-        confirmationTokenRepository.save(new ConfirmationToken(user));
+    public ConfirmationToken createConfirmationToken(final ApplicationUser user) {
+        return confirmationTokenRepository.save(new ConfirmationToken(user));
     }
 
     public Optional<ConfirmationToken> getByUser(final ApplicationUser user) {

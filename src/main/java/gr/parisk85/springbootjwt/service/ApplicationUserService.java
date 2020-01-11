@@ -42,7 +42,6 @@ public class ApplicationUserService {
             applicationUser.setRoles(Set.of(roleService.getByName("ROLE_USER").get()));
         }
         applicationUserRepository.save(applicationUser);
-        confirmationTokenService.createConfirmationToken(applicationUser);
     }
 
     @Transactional
@@ -50,7 +49,7 @@ public class ApplicationUserService {
         //TODO: custom exception
         final ApplicationUser user = findByUsername(username).orElseThrow(RuntimeException::new);
         final ConfirmationToken storedToken = confirmationTokenService.getByUser(user).orElseThrow(RuntimeException::new);
-        if (!storedToken.getConfirmationToken().equals(confirmationToken)) {
+        if (!storedToken.getToken().equals(confirmationToken)) {
             //TODO: custom exception
             throw new RuntimeException();
         }

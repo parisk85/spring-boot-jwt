@@ -2,6 +2,8 @@ package gr.parisk85.springbootjwt.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -16,7 +18,10 @@ import java.util.UUID;
 @Table(name = "CONFIRMATION_TOKENS")
 public class ConfirmationToken {
     @Id
-    private String confirmationToken;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    private String token;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
@@ -29,18 +34,26 @@ public class ConfirmationToken {
 
     public ConfirmationToken(ApplicationUser user) {
         this.user = user;
-        this.confirmationToken = UUID.randomUUID().toString();
+        this.token = UUID.randomUUID().toString();
         final Calendar expirationTime = Calendar.getInstance();
         expirationTime.add(Calendar.MINUTE, 30);
         this.expirationDate = Date.from(expirationTime.toInstant());
     }
 
-    public String getConfirmationToken() {
-        return confirmationToken;
+    public long getId() {
+        return id;
     }
 
-    public void setConfirmationToken(String confirmationToken) {
-        this.confirmationToken = confirmationToken;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public Date getExpirationDate() {

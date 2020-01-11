@@ -28,13 +28,12 @@ public class RegistrationListener {
 
     protected void dispatchConfirmationEmail(final OnRegistrationCompleteEvent event) {
         final ApplicationUser user = event.getUser();
-        //TODO: custom exception
-        final ConfirmationToken confirmationToken = confirmationTokenService.getByUser(user).orElseThrow(RuntimeException::new);
+        final ConfirmationToken confirmationToken = confirmationTokenService.createConfirmationToken(user);
         final String text = new StringBuilder(confirmationEmail.getMessage())
                 .append(confirmationEmail.getAppUrl())
-                .append(confirmationToken.getUser().getUsername())
+                .append(user.getUsername())
                 .append("/")
-                .append(confirmationToken.getConfirmationToken())
+                .append(confirmationToken.getToken())
                 .toString();
         emailService.sendConfirmationEmail(user.getEmail(), confirmationEmail.getSubject(), text);
     }
