@@ -11,4 +11,8 @@
 * Once the jwt token is received, add it to the Authentication Header of the request, preceded by 'Bearer '
 
 #### Confirmation Email Gmail Setup
-* https://support.google.com/accounts/answer/185833     
+* https://support.google.com/accounts/answer/185833   
+
+#### Universal REST Response Format
+Follow the JSend Specification guide
+* https://github.com/omniti-labs/jsend  

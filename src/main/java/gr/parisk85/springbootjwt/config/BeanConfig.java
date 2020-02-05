@@ -1,5 +1,6 @@
 package gr.parisk85.springbootjwt.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gr.parisk85.springbootjwt.model.ConfirmationEmail;
 import gr.parisk85.springbootjwt.model.MailSettings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,10 @@ public class BeanConfig {
         SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
         eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
         return eventMulticaster;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 }
