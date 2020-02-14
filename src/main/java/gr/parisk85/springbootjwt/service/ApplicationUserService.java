@@ -1,5 +1,6 @@
 package gr.parisk85.springbootjwt.service;
 
+import gr.parisk85.springbootjwt.exception.UserAlreadyExistsException;
 import gr.parisk85.springbootjwt.model.ApplicationUser;
 import gr.parisk85.springbootjwt.model.ConfirmationToken;
 import gr.parisk85.springbootjwt.repository.ApplicationUserRepository;
@@ -36,8 +37,7 @@ public class ApplicationUserService {
     @Transactional
     public void createNew(final ApplicationUser applicationUser) {
         findByUsername(applicationUser.getUsername()).ifPresent(u -> {
-            //TODO: create custom exception
-            throw new RuntimeException(String.format("User with username %s already exists", u.getUsername()));
+            throw new UserAlreadyExistsException(String.format("User with username %s already exists", u.getUsername()));
         });
         applicationUser.setPassword(bCryptPasswordEncoder.encode(applicationUser.getPassword()));
         applicationUser.setCreatedAt(new Date());

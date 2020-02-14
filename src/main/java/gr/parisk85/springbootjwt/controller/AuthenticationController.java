@@ -1,6 +1,7 @@
 package gr.parisk85.springbootjwt.controller;
 
 import gr.parisk85.springbootjwt.event.OnRegistrationCompleteEvent;
+import gr.parisk85.springbootjwt.exception.UserAlreadyExistsException;
 import gr.parisk85.springbootjwt.model.ApplicationUser;
 import gr.parisk85.springbootjwt.model.AuthenticationRequest;
 import gr.parisk85.springbootjwt.model.AuthenticationResponse;
@@ -62,8 +63,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<ApplicationUser> register(@RequestBody ApplicationUser applicationUser) {
         if (!applicationUser.getPassword().equals(applicationUser.getPasswordConfirm())) {
-            //TODO: custom exception
-            throw new RuntimeException("Passwords do not match");
+            throw new UserAlreadyExistsException("Passwords do not match");
         }
 
         applicationUserService.createNew(applicationUser);
