@@ -24,4 +24,8 @@ public class ConfirmationTokenService {
     public Optional<ConfirmationToken> getByUser(final ApplicationUser user) {
         return confirmationTokenRepository.findByUser(user);
     }
+
+    public Optional<ConfirmationToken> getByToken(final String token) {
+        return confirmationTokenRepository.findByToken(token);
+    }
 }

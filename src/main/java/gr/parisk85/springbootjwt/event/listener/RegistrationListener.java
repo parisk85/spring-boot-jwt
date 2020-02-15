@@ -31,8 +31,7 @@ public class RegistrationListener {
         final ConfirmationToken confirmationToken = confirmationTokenService.createConfirmationToken(user);
         final String text = new StringBuilder(confirmationEmail.getMessage())
                 .append(confirmationEmail.getAppUrl())
-                .append(user.getUsername())
-                .append("/")
+                .append("confirm/")
                 .append(confirmationToken.getToken())
                 .toString();
         emailService.sendConfirmationEmail(user.getEmail(), confirmationEmail.getSubject(), text);

@@ -49,16 +49,15 @@ public class ApplicationUserService {
     }
 
     @Transactional
-    public void enableUser(final String username, final String confirmationToken) {
-        //TODO: custom exception
-        final ApplicationUser user = findByUsername(username).orElseThrow(RuntimeException::new);
+    public void enableUser(final String confirmationToken) {
+        //TODO: custom exceptions
+        final ConfirmationToken exists = confirmationTokenService.getByToken(confirmationToken).orElseThrow(RuntimeException::new);
+        final ApplicationUser user = findByUsername(exists.getUser().getUsername()).orElseThrow(RuntimeException::new);
         final ConfirmationToken storedToken = confirmationTokenService.getByUser(user).orElseThrow(RuntimeException::new);
         if (!storedToken.getToken().equals(confirmationToken)) {
-            //TODO: custom exception
             throw new RuntimeException();
         }
         if (storedToken.getExpirationDate().before(new Date())) {
-            //TODO: custom exception
             throw new RuntimeException();
         }
         user.setEnabled(true);

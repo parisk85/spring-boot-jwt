@@ -79,9 +79,9 @@ public class AuthenticationController {
     }
 
     //TODO: change to @RequestBody ConfirmationToken for REST compliance
-    @PatchMapping("/confirm/{username}/{confirmationToken}")
-    public ResponseEntity<Void> confirmEmail(@PathVariable final String username, @PathVariable final String confirmationToken) {
-        applicationUserService.enableUser(username, confirmationToken);
+    @PatchMapping("/confirm/{confirmationToken}")
+    public ResponseEntity<Void> confirmEmail(@PathVariable final String confirmationToken) {
+        applicationUserService.enableUser(confirmationToken);
         return ResponseEntity.ok().build();
     }
 }
